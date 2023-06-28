@@ -1,10 +1,17 @@
 import Account from "../src/Account.js";
 
 describe('Account Tests', () => {
-    it('should create and instance of the Account object', () => {
-        let account1 = new Account();
+    let account;
 
-        expect(account1).toBeInstanceOf(Account);
-        expect(account1).toBeDefined();
+    beforeEach(() => {
+        account = new Account();
+    })
+    it('should create and instance of the Account object', () => {
+        expect(account).toBeInstanceOf(Account);
+        expect(account).toBeDefined();
     });
+
+    it('should initialise the account with a balance of zero', () => {
+        expect(account.getBalance()).toBe(0);
+    })
 })

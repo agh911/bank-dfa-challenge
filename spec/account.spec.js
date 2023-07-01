@@ -101,4 +101,39 @@ describe('Account Tests', () => {
 
     })
 
+    it('should throw an error when attempting to withdraw a value equal to 0 or below', () => {
+        // Arrange
+        const mockWithdrawal = {
+            getDate() {
+                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+            },
+            getType() {
+                return 'withdraw';
+            },
+            getAmount() {
+                return 0;
+            },
+            setUpdatedBalance: () => { },
+            getTransactionDetails: () => { }
+        }
+
+        const mockWithdrawal1 = {
+            getDate() {
+                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+            },
+            getType() {
+                return 'withdraw';
+            },
+            getAmount() {
+                return -3000;
+            },
+            setUpdatedBalance: () => { },
+            getTransactionDetails: () => { }
+        }
+
+        expect(() => account.newTransaction(mockWithdrawal)).toThrowError('The transaction amount must not be zero or below.');
+        expect(() => account.newTransaction(mockWithdrawal1)).toThrowError('The transaction amount must not be zero or below.');
+
+    })
+
 })

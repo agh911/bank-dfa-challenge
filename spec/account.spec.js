@@ -43,4 +43,27 @@ describe('Account Tests', () => {
 
         expect(account.getBalance()).toBe(2000);
     })
+
+    it('should deduct 1500 to the balance when a withdrawal of 1500 is made', () => {
+        // Arrange
+        const mockWithdrawal = {
+            getDate() {
+                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+            },
+            getType() {
+                return 'withdraw';
+            },
+            getAmount() {
+                return 1500;
+            },
+            setUpdatedBalance: () => { },
+            getTransactionDetails: () => { }
+        }
+
+        // Act
+        account.newTransaction(mockWithdrawal);
+
+        expect(account.getBalance()).toBe(-1500);
+    })
+
 })

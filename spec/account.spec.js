@@ -136,4 +136,37 @@ describe('Account Tests', () => {
 
     })
 
+    it('should throw an error when attempting to make a deposit with string', () => {
+        // Arrange
+        const mockDeposit = {
+            getDate() {
+                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+            },
+            getType() {
+                return 'deposit';
+            },
+            getAmount() {
+                return 'deposit';
+            },
+            setUpdatedBalance: () => { },
+            getTransactionDetails: () => { }
+        }
+
+        const mockWithdrawal = {
+            getDate() {
+                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+            },
+            getType() {
+                return 'withdraw';
+            },
+            getAmount() {
+                return 'withdraw';
+            },
+            setUpdatedBalance: () => { },
+            getTransactionDetails: () => { }
+        }
+
+        expect(() => account.newTransaction(mockDeposit)).toThrowError('The transaction amount is invalid: must be a number.');
+        expect(() => account.newTransaction(mockWithdrawal)).toThrowError('The transaction amount is invalid: must be a number.');
+    })
 })

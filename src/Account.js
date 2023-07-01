@@ -6,9 +6,16 @@ class Account {
     }
 
     newTransaction(transaction) {
-        const amount = transaction.getAmount();
+        const amount = this.validateAmount(transaction.getAmount());
         this.#balance += (this.isDeposit(transaction) ? amount : -amount);
         transaction.setUpdatedBalance(this.getBalance());
+    }
+
+    validateAmount(amount) {
+        if (amount <= 0) {
+            throw new Error(`The transaction amount must not be zero or below.`);
+        }
+        return amount;
     }
 
     isDeposit(transaction) {

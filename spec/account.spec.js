@@ -66,4 +66,39 @@ describe('Account Tests', () => {
         expect(account.getBalance()).toBe(-1500);
     })
 
+    it('should throw an error when attempting to deposit a value equal to 0 or below', () => {
+        // Arrange
+        const mockDeposit = {
+            getDate() {
+                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+            },
+            getType() {
+                return 'deposit';
+            },
+            getAmount() {
+                return 0;
+            },
+            setUpdatedBalance: () => { },
+            getTransactionDetails: () => { }
+        }
+
+        const mockDeposit1 = {
+            getDate() {
+                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+            },
+            getType() {
+                return 'deposit';
+            },
+            getAmount() {
+                return -500;
+            },
+            setUpdatedBalance: () => { },
+            getTransactionDetails: () => { }
+        }
+
+        expect(() => account.newTransaction(mockDeposit)).toThrowError('The transaction amount must not be zero or below.');
+        expect(() => account.newTransaction(mockDeposit1)).toThrowError('The transaction amount must not be zero or below.');
+
+    })
+
 })

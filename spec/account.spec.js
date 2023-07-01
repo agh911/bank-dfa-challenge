@@ -22,4 +22,25 @@ describe('Account Tests', () => {
         expect(account2.getBalance()).toBe(3000);
     })
 
+    it('should add 2000 to the balance when a deposit of 2000 is made', () => {
+        // Arrange
+        const mockDeposit = {
+            getDate() {
+                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+            },
+            getType() {
+                return 'deposit';
+            },
+            getAmount() {
+                return 2000;
+            },
+            setUpdatedBalance: () => { },
+            getTransactionDetails: () => { }
+        }
+
+        // Act
+        account.newTransaction(mockDeposit);
+
+        expect(account.getBalance()).toBe(2000);
+    })
 })

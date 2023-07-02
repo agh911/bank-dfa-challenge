@@ -1,3 +1,5 @@
+import Statement from "../src/Statement.js";
+
 describe('Statement Tests', () => {
     it('should generate the statement for an empty account', () => {
         // Arrange

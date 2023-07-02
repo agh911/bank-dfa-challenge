@@ -1,14 +1,21 @@
 class Account {
     #balance;
+    #transactionsList;
 
     constructor(balance = 0) {
         this.#balance = balance;
+        this.#transactionsList = [];
     }
 
     newTransaction(transaction) {
         const amount = this.validateAmount(transaction.getAmount());
         this.#balance += (this.isDeposit(transaction) ? amount : -amount);
         transaction.setUpdatedBalance(this.getBalance());
+        this.addTransaction(transaction.getTransactionDetails());
+    }
+
+    addTransaction(transaction) {
+        this.#transactionsList.push(transaction);
     }
 
     validateAmount(amount) {

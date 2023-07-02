@@ -18,6 +18,8 @@ class Transaction {
     getType() {
         return this.#type;
     }
+
+
 }
 
 export default Transaction;

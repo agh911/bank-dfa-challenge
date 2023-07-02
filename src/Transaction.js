@@ -22,6 +22,10 @@ class Transaction {
     getAmount() {
         return this.#amount;
     }
+
+    getUpdatedBalance() {
+        return this.#updatedBalance;
+    }
 }
 
 export default Transaction;

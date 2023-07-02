@@ -26,6 +26,10 @@ class Transaction {
     getUpdatedBalance() {
         return this.#updatedBalance;
     }
+
+    setUpdatedBalance(newBalance) {
+        this.#updatedBalance = newBalance
+    }
 }
 
 export default Transaction;

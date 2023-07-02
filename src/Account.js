@@ -20,10 +20,10 @@ class Account {
 
     validateAmount(amount) {
         if (amount <= 0) {
-            throw new Error(`The transaction amount must not be zero or below.`);
+            throw new Error('The transaction amount must not be zero or below.');
         }
         if (typeof amount === 'string') {
-            throw new Error(`The transaction amount is invalid: must be a number.`);
+            throw new Error('The transaction amount is invalid: must be a number.');
         }
         return amount;
     }

@@ -8,7 +8,7 @@ class Statement {
 
             let balance = this.formatBalance(transaction.updatedBalance.toFixed(2));
 
-            statement += `${transaction.date} || ${credit.padEnd(7)} || ${debit.padEnd(6)} || ${balance}\n`
+            statement += `${transaction.date} || ${credit.padEnd(7)} || ${debit.padEnd(6)} || ${balance}\n`;
         });
         console.log(statement);
     }

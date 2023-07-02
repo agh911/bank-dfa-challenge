@@ -28,7 +28,7 @@ class Transaction {
     }
 
     setUpdatedBalance(newBalance) {
-        this.#updatedBalance = newBalance
+        this.#updatedBalance = newBalance;
     }
 
     getTransactionDetails() {

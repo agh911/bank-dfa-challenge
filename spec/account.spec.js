@@ -26,7 +26,7 @@ describe('Account Tests', () => {
         // Arrange
         const mockDeposit = {
             getDate() {
-                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
             },
             getType() {
                 return 'deposit';
@@ -48,7 +48,7 @@ describe('Account Tests', () => {
         // Arrange
         const mockWithdrawal = {
             getDate() {
-                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
             },
             getType() {
                 return 'withdraw';
@@ -84,7 +84,7 @@ describe('Account Tests', () => {
 
         const mockDeposit1 = {
             getDate() {
-                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
             },
             getType() {
                 return 'deposit';
@@ -105,7 +105,7 @@ describe('Account Tests', () => {
         // Arrange
         const mockWithdrawal = {
             getDate() {
-                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
             },
             getType() {
                 return 'withdraw';
@@ -119,7 +119,7 @@ describe('Account Tests', () => {
 
         const mockWithdrawal1 = {
             getDate() {
-                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
             },
             getType() {
                 return 'withdraw';
@@ -140,7 +140,7 @@ describe('Account Tests', () => {
         // Arrange
         const mockDeposit = {
             getDate() {
-                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
             },
             getType() {
                 return 'deposit';
@@ -154,7 +154,7 @@ describe('Account Tests', () => {
 
         const mockWithdrawal = {
             getDate() {
-                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
             },
             getType() {
                 return 'withdraw';
@@ -174,7 +174,7 @@ describe('Account Tests', () => {
         // Arrange
         const mockDeposit = {
             getDate() {
-                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
             },
             getType() {
                 return 'deposit';
@@ -200,7 +200,7 @@ describe('Account Tests', () => {
         // Arrange
         const mockDeposit = {
             getDate() {
-                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
             },
             getType() {
                 return 'deposit';
@@ -214,7 +214,7 @@ describe('Account Tests', () => {
 
         const mockWithdrawal = {
             getDate() {
-                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
             },
             getType() {
                 return 'withdraw';
@@ -231,5 +231,76 @@ describe('Account Tests', () => {
         account.newTransaction(mockWithdrawal);
 
         expect(account.getTransactions().length).toBe(2);
+    })
+
+    it('should return the transactions in chronological order', () => {
+        // Arrange
+        const mockDeposit = {
+            getDate() {
+                return new Date(2012, 0, 11).toLocaleDateString("en-GB");
+            },
+            getType() {
+                return 'deposit';
+            },
+            getAmount() {
+                return 5000;
+            },
+            setUpdatedBalance: () => { },
+            getTransactionDetails: () => {
+                return {
+                    date: mockDeposit.getDate(),
+                    type: mockDeposit.getType(),
+                    amount: mockDeposit.getAmount()
+                }
+            }
+        };
+
+        const mockWithdrawal = {
+            getDate() {
+                return new Date(2012, 0, 11).toLocaleDateString("en-GB");
+            },
+            getType() {
+                return 'withdraw';
+            },
+            getAmount() {
+                return 2500;
+            },
+            setUpdatedBalance: () => { },
+            getTransactionDetails: () => {
+                return {
+                    date: mockWithdrawal.getDate(),
+                    type: mockWithdrawal.getType(),
+                    amount: mockWithdrawal.getAmount()
+                }
+            }
+        };
+
+        const mockDeposit1 = {
+            getDate() {
+                return new Date(2012, 0, 12).toLocaleDateString("en-GB");
+            },
+            getType() {
+                return 'deposit';
+            },
+            getAmount() {
+                return 5000;
+            },
+            setUpdatedBalance: () => { },
+            getTransactionDetails: () => {
+                return {
+                    date: mockDeposit1.getDate(),
+                    type: mockDeposit1.getType(),
+                    amount: mockDeposit1.getAmount()
+                }
+            }
+        };
+
+        account.newTransaction(mockDeposit);
+        account.newTransaction(mockWithdrawal);
+        account.newTransaction(mockDeposit1);
+
+        let sortedTransactions = [mockDeposit1.getTransactionDetails(), mockWithdrawal.getTransactionDetails(), mockDeposit.getTransactionDetails()];
+
+        expect(account.getTransactions()).toEqual(sortedTransactions);
     })
 })

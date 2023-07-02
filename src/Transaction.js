@@ -14,6 +14,10 @@ class Transaction {
     getDate() {
         return this.#date;
     }
+
+    getType() {
+        return this.#type;
+    }
 }
 
 export default Transaction;

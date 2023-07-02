@@ -19,7 +19,9 @@ class Transaction {
         return this.#type;
     }
 
-
+    getAmount() {
+        return this.#amount;
+    }
 }
 
 export default Transaction;

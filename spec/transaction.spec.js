@@ -23,4 +23,8 @@ describe('Transaction Tests', () => {
     it('should return the correct amount of a given transaction', () => {
         expect(transaction.getAmount()).toEqual(2000);
     })
+
+    it('should return the initial updated balance as undefined', () => {
+        expect(transaction.getUpdatedBalance()).toBeUndefined();
+    });
 })

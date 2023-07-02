@@ -30,6 +30,15 @@ class Transaction {
     setUpdatedBalance(newBalance) {
         this.#updatedBalance = newBalance
     }
+
+    getTransactionDetails() {
+        return {
+            date: this.#date,
+            type: this.#type,
+            amount: this.#amount,
+            updatedBalance: this.#updatedBalance,
+        };
+    }
 }
 
 export default Transaction;

@@ -1,3 +1,5 @@
+import Transaction from "../src/Transaction.js";
+
 describe('Transaction Tests', () => {
     let transaction;
 

@@ -195,4 +195,41 @@ describe('Account Tests', () => {
         expect(account.addTransaction).toHaveBeenCalledWith(mockDeposit.getTransactionDetails());
 
     })
+
+    it('should increase the transactions array by 2 when new transactions are added', () => {
+        // Arrange
+        const mockDeposit = {
+            getDate() {
+                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+            },
+            getType() {
+                return 'deposit';
+            },
+            getAmount() {
+                return 5000;
+            },
+            setUpdatedBalance: () => { },
+            getTransactionDetails: () => { }
+        }
+
+        const mockWithdrawal = {
+            getDate() {
+                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
+            },
+            getType() {
+                return 'withdraw';
+            },
+            getAmount() {
+                return 2500;
+            },
+            setUpdatedBalance: () => { },
+            getTransactionDetails: () => { }
+        }
+
+        // Act
+        account.newTransaction(mockDeposit);
+        account.newTransaction(mockWithdrawal);
+
+        expect(account.getTransactions().length).toBe(2);
+    })
 })

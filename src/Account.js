@@ -39,6 +39,10 @@ class Account {
     getBalance() {
         return this.#balance;
     }
+
+    getTransactions() {
+        return this.#transactionsList;
+    }
 }
 
 export default Account;

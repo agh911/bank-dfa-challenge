@@ -41,7 +41,7 @@ class Account {
     }
 
     getTransactions() {
-        return this.#transactionsList;
+        return this.#transactionsList.sort((a, b) => b.date.localeCompare(a.date));
     }
 }
 

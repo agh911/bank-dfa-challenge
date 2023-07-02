@@ -237,7 +237,7 @@ describe('Account Tests', () => {
         // Arrange
         const mockDeposit = {
             getDate() {
-                return new Date(2012, 0, 11).toLocaleDateString("en-GB");
+                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
             },
             getType() {
                 return 'deposit';

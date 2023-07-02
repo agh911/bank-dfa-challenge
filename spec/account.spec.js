@@ -3,9 +3,24 @@ import Account from "../src/Account.js";
 describe('Account Tests', () => {
     let account;
 
+    function mockTransaction(date, type, amount) {
+        return {
+            getDate: () => date,
+            getType: () => type,
+            getAmount: () => amount,
+            setUpdatedBalance: () => { },
+            getTransactionDetails: () => ({
+                date: date.toLocaleDateString("en-GB"),
+                type,
+                amount
+            })
+        }
+    }
+
     beforeEach(() => {
         account = new Account();
     })
+
     it('should create and instance of the Account object', () => {
         expect(account).toBeInstanceOf(Account);
         expect(account).toBeDefined();
@@ -24,19 +39,7 @@ describe('Account Tests', () => {
 
     it('should add 2000 to the balance when a deposit of 2000 is made', () => {
         // Arrange
-        const mockDeposit = {
-            getDate() {
-                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
-            },
-            getType() {
-                return 'deposit';
-            },
-            getAmount() {
-                return 2000;
-            },
-            setUpdatedBalance: () => { },
-            getTransactionDetails: () => { }
-        }
+        const mockDeposit = mockTransaction(new Date(2012, 0, 10), "deposit", 2000);
 
         // Act
         account.newTransaction(mockDeposit);
@@ -46,19 +49,7 @@ describe('Account Tests', () => {
 
     it('should deduct 1500 to the balance when a withdrawal of 1500 is made', () => {
         // Arrange
-        const mockWithdrawal = {
-            getDate() {
-                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
-            },
-            getType() {
-                return 'withdraw';
-            },
-            getAmount() {
-                return 1500;
-            },
-            setUpdatedBalance: () => { },
-            getTransactionDetails: () => { }
-        }
+        const mockWithdrawal = mockTransaction(new Date(2012, 0, 10), "withdraw", 1500);
 
         // Act
         account.newTransaction(mockWithdrawal);
@@ -68,33 +59,8 @@ describe('Account Tests', () => {
 
     it('should throw an error when attempting to deposit a value equal to 0 or below', () => {
         // Arrange
-        const mockDeposit = {
-            getDate() {
-                return newDate(2012, 0, 10).toLocaleDateString("en-GB");
-            },
-            getType() {
-                return 'deposit';
-            },
-            getAmount() {
-                return 0;
-            },
-            setUpdatedBalance: () => { },
-            getTransactionDetails: () => { }
-        }
-
-        const mockDeposit1 = {
-            getDate() {
-                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
-            },
-            getType() {
-                return 'deposit';
-            },
-            getAmount() {
-                return -500;
-            },
-            setUpdatedBalance: () => { },
-            getTransactionDetails: () => { }
-        }
+        const mockDeposit = mockTransaction(new Date(2012, 0, 10), "deposit", 0);
+        const mockDeposit1 = mockTransaction(new Date(2012, 0, 10), "deposit", -500);
 
         expect(() => account.newTransaction(mockDeposit)).toThrowError('The transaction amount must not be zero or below.');
         expect(() => account.newTransaction(mockDeposit1)).toThrowError('The transaction amount must not be zero or below.');
@@ -103,33 +69,8 @@ describe('Account Tests', () => {
 
     it('should throw an error when attempting to withdraw a value equal to 0 or below', () => {
         // Arrange
-        const mockWithdrawal = {
-            getDate() {
-                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
-            },
-            getType() {
-                return 'withdraw';
-            },
-            getAmount() {
-                return 0;
-            },
-            setUpdatedBalance: () => { },
-            getTransactionDetails: () => { }
-        }
-
-        const mockWithdrawal1 = {
-            getDate() {
-                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
-            },
-            getType() {
-                return 'withdraw';
-            },
-            getAmount() {
-                return -3000;
-            },
-            setUpdatedBalance: () => { },
-            getTransactionDetails: () => { }
-        }
+        const mockWithdrawal = mockTransaction(new Date(2012, 0, 10), "withdraw", 0);
+        const mockWithdrawal1 = mockTransaction(new Date(2012, 0, 10), "withdraw", -3000);
 
         expect(() => account.newTransaction(mockWithdrawal)).toThrowError('The transaction amount must not be zero or below.');
         expect(() => account.newTransaction(mockWithdrawal1)).toThrowError('The transaction amount must not be zero or below.');
@@ -138,33 +79,8 @@ describe('Account Tests', () => {
 
     it('should throw an error when attempting to make a deposit with string', () => {
         // Arrange
-        const mockDeposit = {
-            getDate() {
-                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
-            },
-            getType() {
-                return 'deposit';
-            },
-            getAmount() {
-                return 'deposit';
-            },
-            setUpdatedBalance: () => { },
-            getTransactionDetails: () => { }
-        }
-
-        const mockWithdrawal = {
-            getDate() {
-                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
-            },
-            getType() {
-                return 'withdraw';
-            },
-            getAmount() {
-                return 'withdraw';
-            },
-            setUpdatedBalance: () => { },
-            getTransactionDetails: () => { }
-        }
+        const mockDeposit = mockTransaction(new Date(2012, 0, 10), "deposit", "deposit");
+        const mockWithdrawal = mockTransaction(new Date(2012, 0, 19), "withdraw", "withdraw");
 
         expect(() => account.newTransaction(mockDeposit)).toThrowError('The transaction amount is invalid: must be a number.');
         expect(() => account.newTransaction(mockWithdrawal)).toThrowError('The transaction amount is invalid: must be a number.');
@@ -172,20 +88,7 @@ describe('Account Tests', () => {
 
     it('should add executed transactions to an array within the account for record-keeping purposes', () => {
         // Arrange
-        const mockDeposit = {
-            getDate() {
-                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
-            },
-            getType() {
-                return 'deposit';
-            },
-            getAmount() {
-                return 5000;
-            },
-            setUpdatedBalance: () => { },
-            getTransactionDetails: () => { }
-        }
-
+        const mockDeposit = mockTransaction(new Date(2012, 0, 10), "deposit", 5000);
         spyOn(account, 'addTransaction');
 
         // Act
@@ -198,33 +101,8 @@ describe('Account Tests', () => {
 
     it('should increase the transactions array by 2 when new transactions are added', () => {
         // Arrange
-        const mockDeposit = {
-            getDate() {
-                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
-            },
-            getType() {
-                return 'deposit';
-            },
-            getAmount() {
-                return 5000;
-            },
-            setUpdatedBalance: () => { },
-            getTransactionDetails: () => { }
-        }
-
-        const mockWithdrawal = {
-            getDate() {
-                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
-            },
-            getType() {
-                return 'withdraw';
-            },
-            getAmount() {
-                return 2500;
-            },
-            setUpdatedBalance: () => { },
-            getTransactionDetails: () => { }
-        }
+        const mockDeposit = mockTransaction(new Date(2012, 0, 10), "deposit", 5000);
+        const mockWithdrawal = mockTransaction(new Date(2012, 0, 10), "withdraw", 2500);
 
         // Act
         account.newTransaction(mockDeposit);
@@ -235,65 +113,9 @@ describe('Account Tests', () => {
 
     it('should return the transactions in chronological order', () => {
         // Arrange
-        const mockDeposit = {
-            getDate() {
-                return new Date(2012, 0, 10).toLocaleDateString("en-GB");
-            },
-            getType() {
-                return 'deposit';
-            },
-            getAmount() {
-                return 5000;
-            },
-            setUpdatedBalance: () => { },
-            getTransactionDetails: () => {
-                return {
-                    date: mockDeposit.getDate(),
-                    type: mockDeposit.getType(),
-                    amount: mockDeposit.getAmount()
-                }
-            }
-        };
-
-        const mockWithdrawal = {
-            getDate() {
-                return new Date(2012, 0, 11).toLocaleDateString("en-GB");
-            },
-            getType() {
-                return 'withdraw';
-            },
-            getAmount() {
-                return 2500;
-            },
-            setUpdatedBalance: () => { },
-            getTransactionDetails: () => {
-                return {
-                    date: mockWithdrawal.getDate(),
-                    type: mockWithdrawal.getType(),
-                    amount: mockWithdrawal.getAmount()
-                }
-            }
-        };
-
-        const mockDeposit1 = {
-            getDate() {
-                return new Date(2012, 0, 12).toLocaleDateString("en-GB");
-            },
-            getType() {
-                return 'deposit';
-            },
-            getAmount() {
-                return 5000;
-            },
-            setUpdatedBalance: () => { },
-            getTransactionDetails: () => {
-                return {
-                    date: mockDeposit1.getDate(),
-                    type: mockDeposit1.getType(),
-                    amount: mockDeposit1.getAmount()
-                }
-            }
-        };
+        const mockDeposit = mockTransaction(new Date(2012, 0, 10), "deposit", 5000);
+        const mockWithdrawal = mockTransaction(new Date(2012, 0, 11), "withdraw", 2500);
+        const mockDeposit1 = mockTransaction(new Date(2012, 0, 12), "deposit", 1500);
 
         account.newTransaction(mockDeposit);
         account.newTransaction(mockWithdrawal);

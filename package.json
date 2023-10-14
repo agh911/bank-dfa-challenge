@@ -1,0 +1,16 @@
+{
+  "name": "bank-challenge",
+  "version": "1.0.0",
+  "description": "A Digital Futures Challenge",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "author": "agh911",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.43.0",
+    "jasmine": "^5.0.2"
+  }
+}
